@@ -1,0 +1,7 @@
+# AL compiler output and symbol cache
+.alpackages/
+.alcache/
+.altemplates/
+.snapshots/
+*.app
+rad.json
