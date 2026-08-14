@@ -1,3 +1,8 @@
+# Local environment and secrets — keep .env.example
+.env
+.env.*
+!.env.example
+
 # AL compiler output and symbol cache
 .alpackages/
 .alcache/
