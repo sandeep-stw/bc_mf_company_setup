@@ -1,0 +1,23 @@
+---
+description: Idempotent setup and import scripts for Business Central company data
+globs: scripts/**/*,data/**/*,config/**/*
+alwaysApply: false
+---
+
+# Setup and import scripts
+
+## Idempotency
+
+- Setup and import scripts must be idempotent: running them more than once must not duplicate master data or break existing records.
+- Prefer upsert by natural key (No., Code, Name). If a record exists, update mutable fields; if not, insert.
+- Do not delete and recreate company-wide data unless the script is explicitly a reset tool and says so.
+
+## Configuration
+
+- Never hard-code credentials or secrets. Use environment variables from `.env` (see `.env.example`).
+- Company ID, tenant, environment, and API base URL come from config — not from literals in script bodies, except documented defaults that are clearly overridable.
+
+## APIs
+
+- Call standard Business Central APIs first.
+- Use custom `apex/manufacturing` APIs only for manufacturing entities or actions that standard APIs cannot perform.

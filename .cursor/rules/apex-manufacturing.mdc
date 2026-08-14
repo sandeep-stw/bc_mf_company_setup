@@ -1,0 +1,28 @@
+---
+description: Apex manufacturing Business Central project conventions (publisher, object IDs, APIs, credentials)
+alwaysApply: true
+---
+
+# Apex manufacturing conventions
+
+This repository sets up a Business Central manufacturing demo company (Apex). Follow these constraints on every change.
+
+## Identity
+
+- AL publisher: `ApexDemo`
+- API publisher: `apex`
+- API group: `manufacturing`
+- Object ID range: `50100..50299` only. Do not use IDs outside this range.
+
+Custom API routes must use publisher `apex` and group `manufacturing` (for example `/api/apex/manufacturing/v1.0/...`).
+
+## APIs
+
+- Prefer standard Business Central APIs (v2.0 and other first-party endpoints) before adding custom APIs.
+- Add a custom API only when a standard API cannot create, update, or expose the required manufacturing data.
+
+## Credentials and secrets
+
+- Never hard-code credentials, tokens, tenant IDs used as secrets, client secrets, or connection strings.
+- Read environment values from `.env` / config files that are gitignored. Commit only `.env.example` with placeholders.
+- Do not print secrets in logs, tests, README, or Cursor rules.
