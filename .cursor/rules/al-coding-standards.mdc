@@ -1,0 +1,29 @@
+---
+description: AL coding standards for Business Central objects under src/
+globs: src/**/*.al
+alwaysApply: false
+---
+
+# AL coding standards
+
+## Objects
+
+- Place objects under `src/API`, `src/Setup`, `src/Manufacturing`, or `src/Tests` by purpose.
+- IDs must be in `50100..50299`.
+- Name objects in PascalCase. Prefix custom object names with `Apex` when they are not standard BC table extensions of a single field set (pages, APIs, codeunits, enums).
+- Set `Caption` on objects and fields. Set `DataClassification` on table fields.
+- Use `ApplicationArea = All` (or a more specific area) on pages and page fields.
+- Prefer table/page/codeunit extensions and events over copying standard objects.
+
+## APIs
+
+- Custom API pages: `APIPublisher = 'apex';`, `APIGroup = 'manufacturing';`, versioned `APIVersion`.
+- Entity names must be stable and singular for the entity, with a clear `EntitySetName`.
+- Expose keys needed for idempotent upserts (natural keys such as No., Code).
+
+## Style
+
+- 4-space indentation. One object per file. File name matches the object name.
+- Procedures and triggers in PascalCase. Local variables in camelCase.
+- Keep procedures focused. Fail with `Error()` or `TestField` rather than silent skips of invalid data.
+- Do not embed secrets, tenant-specific URLs, or company names as literals except in tests that use fixtures.
