@@ -1,0 +1,54 @@
+{
+  "displayName": "Apex Manufacturing BC Automation",
+  "description": "Service-to-service (client credentials) app for Apex Business Central manufacturing setup scripts.",
+  "signInAudience": "AzureADMyOrg",
+  "businessCentralResource": {
+    "displayName": "Dynamics 365 Business Central",
+    "resourceAppId": "996def3d-b36c-4153-8607-a6fd3c01b89f",
+    "tokenScope": "https://api.businesscentral.dynamics.com/.default"
+  },
+  "applicationPermissions": [
+    {
+      "value": "API.ReadWrite.All",
+      "id": "a42b0b75-311e-488d-b67e-8fe84f924341",
+      "type": "Role",
+      "purpose": "Access Business Central APIs and web services (v2.0 and custom APIs)."
+    },
+    {
+      "value": "Automation.ReadWrite.All",
+      "id": "d365bc00-a990-0000-00bc-160000000001",
+      "type": "Role",
+      "purpose": "Access Business Central automation APIs for company setup."
+    }
+  ],
+  "clientSecret": {
+    "displayName": "apex-bc-automation",
+    "defaultValidityMonths": 24
+  },
+  "redirectUris": [
+    "https://businesscentral.dynamics.com/OAuthLanding.htm"
+  ],
+  "businessCentralApplicationCard": {
+    "state": "Enabled",
+    "recommendedPermissionSets": [
+      "D365 AUTOMATION",
+      "EXTEN. MGT. - ADMIN"
+    ],
+    "notes": [
+      "Do not assign the SUPER permission set to an Entra application.",
+      "Grant Consent from the Microsoft Entra Applications card if admin consent was not granted in Entra.",
+      "Map Application (client) ID from Entra into BC_CLIENT_ID in .env."
+    ]
+  },
+  "envMapping": {
+    "BC_TENANT_ID": "Directory (tenant) ID from the app Overview page",
+    "BC_CLIENT_ID": "Application (client) ID from the app Overview page",
+    "BC_CLIENT_SECRET": "Client secret Value shown once at creation time",
+    "BC_ENVIRONMENT_NAME": "Business Central environment name (for example sandbox)",
+    "BC_API_BASE_URL": "https://api.businesscentral.dynamics.com/v2.0/{tenantId}/{environmentName}"
+  },
+  "references": [
+    "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/automation-apis-using-s2s-authentication",
+    "https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app"
+  ]
+}
