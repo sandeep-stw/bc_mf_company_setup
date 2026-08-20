@@ -23,3 +23,15 @@ pwsh -File scripts/Register-BCEntraApp.ps1 -GrantAdminConsent
 . ./scripts/Get-BCAccessToken.ps1
 $token = Get-BCAccessToken
 ```
+
+6. Call Business Central APIs through the helper module (BCM-012):
+
+```powershell
+Import-Module ./scripts/BCApi.psd1
+
+$companies = Invoke-BCApiGet -Path 'companies' -AllPages
+$items = Invoke-BCApiGet -Path 'items' -CompanyId $env:BC_COMPANY_ID -Top 20
+Invoke-BCApiPost -Path 'items' -CompanyId $env:BC_COMPANY_ID -Body @{ displayName = 'Example' }
+```
+
+`Invoke-BCApiGet`, `Invoke-BCApiPost`, `Invoke-BCApiPatch`, and `Invoke-BCApiDelete` authenticate with `Get-BCAccessToken`, follow OData `@odata.nextLink` pagination (`-AllPages`), log method/URL/status (never tokens), and surface Business Central error codes. Custom manufacturing APIs use `-ApiPublisher apex -ApiGroup manufacturing`. Offline tests: `pwsh -File scripts/BCApi.Tests.ps1`.
