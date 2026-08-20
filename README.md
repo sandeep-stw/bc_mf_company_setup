@@ -17,3 +17,9 @@ pwsh -File scripts/Register-BCEntraApp.ps1 -GrantAdminConsent
 
 3. Paste the printed `BC_TENANT_ID`, `BC_CLIENT_ID`, and `BC_CLIENT_SECRET` into `.env`.
 4. In Business Central, open **Microsoft Entra Applications**, enable the app, and assign `D365 AUTOMATION` and `EXTEN. MGT. - ADMIN` (not `SUPER`).
+5. Acquire a Business Central access token (client credentials):
+
+```powershell
+. ./scripts/Get-BCAccessToken.ps1
+$token = Get-BCAccessToken
+```
