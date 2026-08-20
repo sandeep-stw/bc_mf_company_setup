@@ -11,7 +11,7 @@
       BC_API_BASE_URL (or BC_TENANT_ID + BC_ENVIRONMENT_NAME)
 
     Optional:
-      BC_COMPANY_NAME   Display name to match (default: Apex Manufacturing)
+      BC_COMPANY_NAME   Display name to match (default: Apex Furniture Manufacturing Pvt. Ltd.)
 
     Dot-source to call the functions:
       . ./scripts/Get-BCCompanies.ps1
@@ -20,7 +20,7 @@
       $apex.Id
 
 .PARAMETER Name
-    Company name or display name to match. Defaults to BC_COMPANY_NAME or Apex Manufacturing.
+    Company name or display name to match. Defaults to BC_COMPANY_NAME or Apex Furniture Manufacturing Pvt. Ltd.
 
 .PARAMETER List
     Print all companies (Id and display name) instead of resolving Apex.
@@ -49,7 +49,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$script:DefaultApexCompanyName = 'Apex Manufacturing'
+$script:DefaultApexCompanyName = 'Apex Furniture Manufacturing Pvt. Ltd.'
 $script:PlaceholderGuid = '00000000-0000-0000-0000-000000000000'
 
 function Import-BCApiModule {
