@@ -62,7 +62,7 @@ Fill at least:
 | `BC_ENVIRONMENT_NAME` | BC environment name (for example `sandbox`) |
 | `BC_API_BASE_URL` | `https://api.businesscentral.dynamics.com/v2.0/{tenantId}/{environmentName}` |
 
-`BC_COMPANY_ID` can wait until BCM-013 (company lookup).
+`BC_COMPANY_ID` is filled by `pwsh -File scripts/Get-BCCompanies.ps1 -UpdateEnv` (BCM-013).
 
 ## Verify
 

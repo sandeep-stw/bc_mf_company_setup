@@ -35,3 +35,21 @@ Invoke-BCApiPost -Path 'items' -CompanyId $env:BC_COMPANY_ID -Body @{ displayNam
 ```
 
 `Invoke-BCApiGet`, `Invoke-BCApiPost`, `Invoke-BCApiPatch`, and `Invoke-BCApiDelete` authenticate with `Get-BCAccessToken`, follow OData `@odata.nextLink` pagination (`-AllPages`), log method/URL/status (never tokens), and surface Business Central error codes. Custom manufacturing APIs use `-ApiPublisher apex -ApiGroup manufacturing`. Offline tests: `pwsh -File scripts/BCApi.Tests.ps1`.
+
+7. Resolve the Apex demo company ID (BCM-013):
+
+```powershell
+pwsh -File scripts/Get-BCCompanies.ps1
+pwsh -File scripts/Get-BCCompanies.ps1 -List
+pwsh -File scripts/Get-BCCompanies.ps1 -UpdateEnv
+```
+
+The script calls the standard `companies` API, matches `Apex Furniture Manufacturing Pvt. Ltd.` (override with `BC_COMPANY_NAME` or `-Name`), and prints the company GUID. `-UpdateEnv` writes `BC_COMPANY_ID` in `.env`. Offline tests: `pwsh -File scripts/Get-BCCompanies.Tests.ps1`.
+
+8. Create the Apex demo company in the **sandbox** environment (BCM-040):
+
+```powershell
+pwsh -File scripts/New-BCApexCompany.ps1 -UpdateEnv
+```
+
+This is idempotent. It uses the Microsoft automation API (`automationCompanies`) with an existing seed company (typically CRONUS). Identity is `APEX` / `Apex Furniture Manufacturing Pvt. Ltd.` from [`config/apex-company.json`](config/apex-company.json). The new company is empty until later setup (BCM-041+). Offline tests: `pwsh -File scripts/New-BCApexCompany.Tests.ps1`.

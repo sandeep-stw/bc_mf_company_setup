@@ -1,0 +1,10 @@
+{
+  "name": "APEX",
+  "displayName": "Apex Furniture Manufacturing Pvt. Ltd.",
+  "notes": [
+    "name is the Business Central company code (keep at most 30 characters).",
+    "displayName is the company shown in the client and matched by lookup scripts.",
+    "Created via POST .../api/microsoft/automation/v2.0/companies({seedCompanyId})/automationCompanies.",
+    "The new company is empty until RapidStart / BCM-041+ setup runs."
+  ]
+}
