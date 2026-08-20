@@ -35,3 +35,13 @@ Invoke-BCApiPost -Path 'items' -CompanyId $env:BC_COMPANY_ID -Body @{ displayNam
 ```
 
 `Invoke-BCApiGet`, `Invoke-BCApiPost`, `Invoke-BCApiPatch`, and `Invoke-BCApiDelete` authenticate with `Get-BCAccessToken`, follow OData `@odata.nextLink` pagination (`-AllPages`), log method/URL/status (never tokens), and surface Business Central error codes. Custom manufacturing APIs use `-ApiPublisher apex -ApiGroup manufacturing`. Offline tests: `pwsh -File scripts/BCApi.Tests.ps1`.
+
+7. Resolve the Apex demo company ID (BCM-013):
+
+```powershell
+pwsh -File scripts/Get-BCCompanies.ps1
+pwsh -File scripts/Get-BCCompanies.ps1 -List
+pwsh -File scripts/Get-BCCompanies.ps1 -UpdateEnv
+```
+
+The script calls the standard `companies` API, matches `Apex Manufacturing` (override with `BC_COMPANY_NAME` or `-Name`), and prints the company GUID. `-UpdateEnv` writes `BC_COMPANY_ID` in `.env`. Offline tests: `pwsh -File scripts/Get-BCCompanies.Tests.ps1`.
