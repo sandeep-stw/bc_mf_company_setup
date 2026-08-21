@@ -44,4 +44,4 @@ pwsh -File scripts/Get-BCCompanies.ps1 -List
 pwsh -File scripts/Get-BCCompanies.ps1 -UpdateEnv
 ```
 
-The script calls the standard `companies` API, matches `Apex Manufacturing` (override with `BC_COMPANY_NAME` or `-Name`), and prints the company GUID. `-UpdateEnv` writes `BC_COMPANY_ID` in `.env`. Offline tests: `pwsh -File scripts/Get-BCCompanies.Tests.ps1`.
+The script calls the standard `companies` API and prefers `Apex Manufacturing` (override with `BC_COMPANY_NAME` or `-Name`). If Apex is not created yet and the sandbox has a single company (typically CRONUS), that company ID is returned. `-UpdateEnv` writes `BC_COMPANY_ID` in `.env`. Offline tests: `pwsh -File scripts/Get-BCCompanies.Tests.ps1`.

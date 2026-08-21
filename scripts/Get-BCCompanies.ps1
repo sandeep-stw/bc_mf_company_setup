@@ -28,6 +28,9 @@
 .PARAMETER UpdateEnv
     Write the resolved company ID to BC_COMPANY_ID in the gitignored .env and the process environment.
 
+.PARAMETER RequireApex
+    Do not fall back to the only sandbox company (typically CRONUS) when Apex is missing.
+
 .EXAMPLE
     pwsh -File scripts/Get-BCCompanies.ps1
 
@@ -43,6 +46,7 @@ param(
     [string] $Name,
     [switch] $List,
     [switch] $UpdateEnv,
+    [switch] $RequireApex,
     [string] $EnvPath
 )
 
@@ -159,7 +163,8 @@ function Find-BCApexCompany {
     param(
         [string] $Name,
         [pscustomobject] $Token,
-        [object[]] $Company
+        [object[]] $Company,
+        [switch] $RequireApex
     )
 
     $resolvedName = Get-BCCompanyNameCandidate -Name $Name
@@ -199,6 +204,15 @@ function Find-BCApexCompany {
     $available = ($companies | ForEach-Object {
             if ($_.DisplayName) { $_.DisplayName } else { $_.Name }
         }) -join ', '
+
+    $companyCount = @($companies).Count
+    if (-not $RequireApex -and $companyCount -eq 1) {
+        $only = @($companies)[0]
+        $label = if ($only.DisplayName) { $only.DisplayName } else { $only.Name }
+        Write-Warning "Apex company '$resolvedName' was not found. Using the only sandbox company '$label'."
+        return $only
+    }
+
     throw "Apex demo company '$resolvedName' was not found. Available companies: $available"
 }
 
@@ -266,7 +280,7 @@ if (-not $script:IsDotSourced) {
         }
     }
     else {
-        $apex = Find-BCApexCompany -Name $Name
+        $apex = Find-BCApexCompany -Name $Name -RequireApex:$RequireApex
         if ($UpdateEnv) {
             Set-BCCompanyIdInEnv -CompanyId $apex.Id -Path $EnvPath
         }

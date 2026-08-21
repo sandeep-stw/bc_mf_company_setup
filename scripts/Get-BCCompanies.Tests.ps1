@@ -42,12 +42,27 @@ $partialOnly = @(
 $partial = Find-BCApexCompany -Company $partialOnly
 Assert-True 'partial Apex match when exact name missing' ($partial.Id -eq $apex.id) $partial.Id
 
+$sandboxDemo = Find-BCApexCompany -Company @((ConvertTo-BCCompany -Row $cronus))
+Assert-True 'single sandbox demo company is used' ($sandboxDemo.Id -eq $cronus.id) $sandboxDemo.Id
+
 try {
-    $null = Find-BCApexCompany -Company @((ConvertTo-BCCompany -Row $cronus))
-    Assert-True 'missing Apex throws' $false 'did not throw'
+    $null = Find-BCApexCompany -RequireApex -Company @((ConvertTo-BCCompany -Row $cronus))
+    Assert-True 'RequireApex throws without Apex' $false 'did not throw'
 }
 catch {
-    Assert-True 'missing Apex lists available companies' ($_.Exception.Message -match 'CRONUS') $_.Exception.Message
+    Assert-True 'RequireApex lists available companies' ($_.Exception.Message -match 'CRONUS') $_.Exception.Message
+}
+
+$secondDemo = [pscustomobject]@{ id = 'dddddddd-dddd-dddd-dddd-dddddddddddd'; name = 'CRONUS CA'; displayName = 'CRONUS Canada' }
+try {
+    $null = Find-BCApexCompany -Company @(
+        (ConvertTo-BCCompany -Row $cronus),
+        (ConvertTo-BCCompany -Row $secondDemo)
+    )
+    Assert-True 'multiple non-Apex companies throw' $false 'did not throw'
+}
+catch {
+    Assert-True 'multiple non-Apex companies throw' ($_.Exception.Message -match 'CRONUS') $_.Exception.Message
 }
 
 try {
