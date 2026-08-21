@@ -163,14 +163,14 @@ function Find-BCApexCompany {
     )
 
     $resolvedName = Get-BCCompanyNameCandidate -Name $Name
-    $companies = if ($null -ne $Company) {
-        @($Company)
+    if ($PSBoundParameters.ContainsKey('Company')) {
+        $companies = @($Company | Where-Object { $null -ne $_ })
     }
     else {
-        Get-BCCompanies -Token $Token
+        $companies = @(Get-BCCompanies -Token $Token)
     }
 
-    if ($companies.Count -eq 0) {
+    if (@($companies).Count -eq 0) {
         throw 'No companies were returned by the Business Central companies API.'
     }
 
