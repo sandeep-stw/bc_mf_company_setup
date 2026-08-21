@@ -35,3 +35,19 @@ Invoke-BCApiPost -Path 'items' -CompanyId $env:BC_COMPANY_ID -Body @{ displayNam
 ```
 
 `Invoke-BCApiGet`, `Invoke-BCApiPost`, `Invoke-BCApiPatch`, and `Invoke-BCApiDelete` authenticate with `Get-BCAccessToken`, follow OData `@odata.nextLink` pagination (`-AllPages`), log method/URL/status (never tokens), and surface Business Central error codes. Custom manufacturing APIs use `-ApiPublisher apex -ApiGroup manufacturing`. Offline tests: `pwsh -File scripts/BCApi.Tests.ps1`.
+
+7. Resolve the Apex demo company ID (BCM-013):
+
+```powershell
+pwsh -File scripts/Get-BCCompanies.ps1
+pwsh -File scripts/Get-BCCompanies.ps1 -List
+pwsh -File scripts/Get-BCCompanies.ps1 -UpdateEnv
+```
+
+`Get-BCCompanies.ps1` only **lists** companies. A new sandbox typically has CRONUS (or another Microsoft demo company), not Apex. Create Apex Manufacturing first:
+
+```powershell
+pwsh -File scripts/New-BCApexCompany.ps1 -UpdateEnv
+```
+
+That POSTs to the standard Microsoft automation API (`automationCompanies`) using CRONUS as the seed. The new company is empty until later setup. Config: [`config/apex-company.json`](config/apex-company.json) (`name` `APEX`, `displayName` `Apex Manufacturing`). Then look it up with `Get-BCCompanies.ps1`. Offline tests: `pwsh -File scripts/Get-BCCompanies.Tests.ps1` and `pwsh -File scripts/New-BCApexCompany.Tests.ps1`.
