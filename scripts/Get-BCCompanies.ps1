@@ -209,7 +209,7 @@ function Find-BCApexCompany {
     if (-not $RequireApex -and $companyCount -eq 1) {
         $only = @($companies)[0]
         $label = if ($only.DisplayName) { $only.DisplayName } else { $only.Name }
-        Write-Warning "Apex company '$resolvedName' was not found. Using the only sandbox company '$label'."
+        Write-Warning "Apex company '$resolvedName' was not found. Using the only sandbox company '$label'. Create Apex with: pwsh -File scripts/New-BCApexCompany.ps1 -UpdateEnv"
         return $only
     }
 
